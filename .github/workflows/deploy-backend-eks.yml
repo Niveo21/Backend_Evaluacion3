@@ -20,7 +20,7 @@ jobs:
   # ============================================================
   # JOB 1: CODE QUALITY - OpenRewrite + Spotless + PMD
   # ============================================================
-code-quality:
+  code-quality:
     name: Code Quality
     runs-on: ubuntu-latest
     steps:
@@ -34,26 +34,24 @@ code-quality:
           distribution: 'temurin'
           cache: gradle
 
-      # Damos permisos apuntando a la ruta real desde la raíz del repositorio
       - name: Dar permisos al gradlew
-        run: chmod +x ./bloque05-github-repos/Backend_Evaluacion3/gradlew
+        run: chmod +x gradlew
 
-      # Usamos el parámetro -p para decirle a Gradle en qué directorio ejecutar la tarea
       - name: OpenRewrite dry-run
-        run: ./bloque05-github-repos/Backend_Evaluacion3/gradlew -p ./bloque05-github-repos/Backend_Evaluacion3 rewriteDryRun -Dnet.bytebuddy.experimental=true
+        run: ./gradlew rewriteDryRun -Dnet.bytebuddy.experimental=true
 
       - name: Spotless check
-        run: ./bloque05-github-repos/Backend_Evaluacion3/gradlew -p ./bloque05-github-repos/Backend_Evaluacion3 spotlessCheck
+        run: ./gradlew spotlessCheck
 
       - name: PMD main y test
-        run: ./bloque05-github-repos/Backend_Evaluacion3/gradlew -p ./bloque05-github-repos/Backend_Evaluacion3 pmdMain pmdTest
+        run: ./gradlew pmdMain pmdTest
 
       - name: Publicar reporte PMD
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pmd-report
-          path: bloque05-github-repos/Backend_Evaluacion3/build/reports/pmd/
+          path: build/reports/pmd/
           retention-days: 7
 
   # ============================================================
