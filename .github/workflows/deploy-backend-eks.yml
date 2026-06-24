@@ -34,28 +34,26 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      # Damos permisos apuntando a la ruta real desde la raíz del repositorio
       - name: Dar permisos al gradlew
-        working-directory: ./Backend_Evaluacion3
-        run: chmod +x gradlew
+        run: chmod +x ./bloque05-github-repos/Backend_Evaluacion3/gradlew
 
+      # Usamos el parámetro -p para decirle a Gradle en qué directorio ejecutar la tarea
       - name: OpenRewrite dry-run
-        working-directory: ./Backend_Evaluacion3
-        run: ./gradlew rewriteDryRun -Dnet.bytebuddy.experimental=true
+        run: ./bloque05-github-repos/Backend_Evaluacion3/gradlew -p ./bloque05-github-repos/Backend_Evaluacion3 rewriteDryRun -Dnet.bytebuddy.experimental=true
 
       - name: Spotless check
-        working-directory: ./Backend_Evaluacion3
-        run: ./gradlew spotlessCheck
+        run: ./bloque05-github-repos/Backend_Evaluacion3/gradlew -p ./bloque05-github-repos/Backend_Evaluacion3 spotlessCheck
 
       - name: PMD main y test
-        working-directory: ./Backend_Evaluacion3
-        run: ./gradlew pmdMain pmdTest
+        run: ./bloque05-github-repos/Backend_Evaluacion3/gradlew -p ./bloque05-github-repos/Backend_Evaluacion3 pmdMain pmdTest
 
       - name: Publicar reporte PMD
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pmd-report
-          path: Backend_Evaluacion3/build/reports/pmd/
+          path: bloque05-github-repos/Backend_Evaluacion3/build/reports/pmd/
           retention-days: 7
 
   # ============================================================
