@@ -35,15 +35,19 @@ jobs:
           cache: gradle
 
       - name: Dar permisos al gradlew
+        working-directory: ./Backend_Evaluacion3
         run: chmod +x gradlew
 
       - name: OpenRewrite dry-run
+        working-directory: ./Backend_Evaluacion3
         run: ./gradlew rewriteDryRun -Dnet.bytebuddy.experimental=true
 
       - name: Spotless check
+        working-directory: ./Backend_Evaluacion3
         run: ./gradlew spotlessCheck
 
       - name: PMD main y test
+        working-directory: ./Backend_Evaluacion3
         run: ./gradlew pmdMain pmdTest
 
       - name: Publicar reporte PMD
@@ -51,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pmd-report
-          path: build/reports/pmd/
+          path: Backend_Evaluacion3/build/reports/pmd/
           retention-days: 7
 
   # ============================================================
